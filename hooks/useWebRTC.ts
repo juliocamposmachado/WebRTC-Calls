@@ -454,12 +454,16 @@ export function useWebRTC({ roomId, userId }: UseWebRTCProps) {
     }
   }, [localStream]);
 
-  // Cleanup on unmount
+  // Initialize signaling channel on mount
   useEffect(() => {
+    console.log('Setting up signaling channel on mount');
+    setupSignalingChannel();
+    
     return () => {
+      console.log('Cleaning up on unmount');
       cleanup();
     };
-  }, [cleanup]);
+  }, [setupSignalingChannel, cleanup]);
 
   return {
     callState,
